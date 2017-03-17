@@ -1,0 +1,13 @@
+function [ci] = cifun(message)
+    q = 500000; 
+    k = 1000; % 这两个值不要随意修改，会引起ci的指数级跳变
+    rs = message(1:2,:);
+    ri = message(3:4,:);
+    v = message(5,:);
+    theta = message(6,:);
+    xi = ri(1, :);
+    yi = ri(2, :);
+    distance = sqrt((rs(1) - xi).^2 + (rs(2)-yi).^2);
+    deltax = (rs(1) - xi).*cos(theta) + (rs(2) - yi).*sin(theta);
+    ci = q/(2*pi*k)*1./(distance).*exp(-v./(2*k).*(distance)-deltax);
+    ci = log(ci);
